@@ -1,0 +1,29 @@
+{
+  "salary": {
+    "annual_salary": 80000,
+    "employee_pension_percent": 8.0,
+    "employer_pension_percent": 5.0
+  },
+  "bonuses": {
+    "sign_on_bonus": 40000,
+    "annual_bonus": 15000
+  },
+  "stock_grants": {
+    "total_grant_value": 100000,
+    "vesting_schedule": [
+      10,
+      20,
+      30,
+      40
+    ]
+  },
+  "tax_settings": {
+    "national_insurance_category": "A"
+  },
+  "expenses": {
+    "bills": 1800,
+    "groceries": 600,
+    "transport": 300,
+    "other": 500
+  }
+}
