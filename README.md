@@ -1,135 +1,84 @@
-# UK Salary Budgeting Calculator
+## Running the App
 
-A Python CLI application that calculates post-tax income from UK salary, bonuses, and stock grants, then provides basic budget planning functionality.
+This project is split into two services:
 
-## Features
+* **Frontend** → React (Vite + React Router)
+* **Backend** → Python (FastAPI)
 
-- **UK Tax Calculations**: Accurate Income Tax and National Insurance calculations using 2024/25 tax rates
-- **Equity Compensation**: Support for bonuses and stock grants with custom vesting schedules
-- **Budget Planning**: Monthly budget breakdown with expense categories
-- **JSON Configuration**: Easy-to-use configuration file system
-- **Comprehensive Testing**: Full test coverage with pytest
+Docker is used for both **development** and **production**.
 
-## Installation
+### Development Mode (Hot Reload)
 
-```bash
-pip3 install pytest
-```
+### Requirements
 
-## Usage
+* Docker
+* Docker Compose (v2+)
 
-### Generate Example Configuration
+### Start the app (dev)
+
+From the project root:
 
 ```bash
-python3 main.py --generate-example
+docker compose -f docker-compose.dev.yml up --build
 ```
 
-This creates `example_config.json` with sample values.
+### Access services
 
-### Run Budget Calculation
+| Service  | URL                                            |
+| -------- | ---------------------------------------------- |
+| Frontend | [http://localhost:5173](http://localhost:5173) |
+| Backend  | [http://localhost:8000](http://localhost:8000) |
+
+### Notes
+
+* Frontend uses the React Router dev server (`react-router dev --host`)
+* Backend runs with `uvicorn --reload`
+* The frontend talks to the backend via `http://localhost:8000`
+* `node_modules` is isolated inside Docker to avoid host/OS issues
+
+### Stop the app
 
 ```bash
-python3 main.py --config example_config.json
+Ctrl + C
 ```
 
-### Configuration Format
+To fully clean containers and volumes:
 
-```json
-{
-  "salary": {
-    "annual_salary": 50000,
-    "employee_pension_percent": 5.0,
-    "employer_pension_percent": 3.0
-  },
-  "bonuses": {
-    "sign_on_bonus": 10000,
-    "annual_bonus": 5000
-  },
-  "stock_grants": {
-    "total_grant_value": 40000,
-    "vesting_schedule": [5, 15, 40, 40]
-  },
-  "tax_settings": {
-    "national_insurance_category": "A"
-  },
-  "expenses": {
-    "bills": 1200,
-    "groceries": 400,
-    "transport": 200,
-    "other": 300
-  }
-}
-```
-
-## Tax Rules
-
-### Income Tax Bands (2024/25)
-- Personal Allowance: Up to £12,570 (0%)
-- Basic rate: £12,571 to £50,270 (20%)
-- Higher rate: £50,271 to £125,140 (40%)
-- Additional rate: Over £125,140 (45%)
-
-### National Insurance Categories
-Supports all UK NI categories (A, B, D, E, F, H, I, J, L, M, N, V, Z) with appropriate rates.
-
-### Bonus and Stock Grant Taxation
-- Bonuses are taxed as regular income (Income Tax + National Insurance)
-- Stock grants are tax-free at grant, taxed as employment income when vested
-- Sign-on bonuses are averaged over 4 years for annual calculation
-
-## Testing
-
-Run all tests:
 ```bash
-python3 -m pytest -v
+docker compose -f docker-compose.dev.yml down -v
 ```
 
-Run specific test file:
+### Production Mode
+
+Production mode builds **optimized, immutable images**:
+
+* No hot reload
+* No volume mounts
+* Smaller, production-ready images
+
+### Start the app (prod)
+
+From the project root:
+
 ```bash
-python3 -m pytest test_tax_calculator.py -v
+docker compose up --build
 ```
 
-## Project Structure
+### Access services
 
-- `main.py` - CLI application entry point
-- `tax_calculator.py` - UK tax calculation engine
-- `equity_calculator.py` - Bonus and stock grant processing
-- `budget_calculator.py` - Budget calculation and output formatting
-- `test_*.py` - Comprehensive test suite
-- `example_config.json` - Generated example configuration
+| Service  | URL                                            |
+| -------- | ---------------------------------------------- |
+| Frontend | [http://localhost:3000](http://localhost:3000) |
+| Backend  | [http://localhost:8000](http://localhost:8000) |
 
-## Example Output
+### Notes
 
-```
-==================================================
-UK SALARY BUDGETING CALCULATOR
-==================================================
+* Frontend is built using a multi-stage Docker build
+* Backend runs FastAPI with Uvicorn (no reload)
+* Containers are suitable for deployment to ECS / Kubernetes / etc.
 
-📊 ANNUAL COMPENSATION BREAKDOWN
------------------------------------
-Base Salary:        £50,000.00
-Annual Bonus:       £7,500.00
-Vested Stock:       £2,000.00
-Total Compensation: £59,500.00
+### Stop the app
 
-💰 TAX BREAKDOWN
---------------------
-Gross Income:       £59,500.00
-Income Tax:         £10,042.00 (16.9%)
-National Insurance: £3,686.20 (6.2%)
-Pension:            £2,975.00 (5.0%)
-Net Income:         £42,796.80 (71.9%)
-
-🏠 MONTHLY BUDGET
-------------------
-Monthly Net Income: £3,566.40
-
-Expenses:
-  Bills        £1,200.00 (33.6%)
-  Groceries    £400.00 (11.2%)
-  Transport    £200.00 (5.6%)
-  Other        £300.00 (8.4%)
-
-Total Expenses:     £2,100.00 (58.9%)
-Remaining:          £1,466.40 (41.1%)
+```bash
+docker compose down
 ```
