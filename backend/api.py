@@ -15,27 +15,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class SalaryConfig(BaseModel):
     annual_salary: float
     employee_pension_percent: float
     employer_pension_percent: float
-    
+
     @validator('annual_salary')
     def salary_must_be_positive(cls, v):
         if v <= 0:
             raise ValueError('annual_salary must be positive')
         return v
 
+
 class BonusConfig(BaseModel):
     sign_on_bonus: float = 0
     annual_bonus: float = 0
+
 
 class StockConfig(BaseModel):
     total_grant_value: float = 0
     vesting_schedule: List[float] = []
 
+
 class TaxConfig(BaseModel):
     national_insurance_category: str = "A"
+
 
 class BudgetRequest(BaseModel):
     salary: SalaryConfig
@@ -44,9 +49,11 @@ class BudgetRequest(BaseModel):
     tax_settings: TaxConfig
     expenses: Dict[str, float]
 
+
 @app.get("/")
 def read_root():
     return {"message": "UK Salary Budgeting Calculator API"}
+
 
 @app.post("/calculate-budget")
 def calculate_budget(request: BudgetRequest):
@@ -59,22 +66,26 @@ def calculate_budget(request: BudgetRequest):
             "tax_settings": request.tax_settings.dict(),
             "expenses": request.expenses
         }
-        
+
         # Calculate compensation and taxes
-        compensation_result = CompensationCalculator.calculate_total_tax_liability(config)
-        
+        compensation_result = CompensationCalculator.calculate_total_tax_liability(
+            config)
+
         # Calculate budget
         budget_result = BudgetCalculator.calculate_budget(
-            compensation_result['monthly_net_income'],
-            config['expenses']
-        )
-        
-        return {
-            "compensation": compensation_result,
-            "budget": budget_result
-        }
-        
+            compensation_result['monthly_net_income'], config['expenses'])
+
+        return {"compensation": compensation_result, "budget": budget_result}
+
     except ValueError as e:
-        raise HTTPException(status_code=400, detail={"error": "Validation error", "details": str(e)})
+        raise HTTPException(status_code=400,
+                            detail={
+                                "error": "Validation error",
+                                "details": str(e)
+                            })
     except Exception as e:
-        raise HTTPException(status_code=500, detail={"error": "Calculation error", "details": str(e)})
+        raise HTTPException(status_code=500,
+                            detail={
+                                "error": "Calculation error",
+                                "details": str(e)
+                            })
