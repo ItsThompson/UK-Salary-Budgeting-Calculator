@@ -6,9 +6,15 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   optimizeDeps: {
-    include: ['@jsonforms/core']
+    include: [
+      '@jsonforms/core',
+      '@jsonforms/react'
+    ]
   },
   ssr: {
-    noExternal: ['@jsonforms/core']
+    noExternal: [
+      '@jsonforms/core',
+      '@jsonforms/react'
+    ]
   }
 });

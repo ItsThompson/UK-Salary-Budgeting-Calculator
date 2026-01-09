@@ -1,4 +1,5 @@
-import { JsonSchema } from '@jsonforms/core';
+import * as JsonFormsCore from '@jsonforms/core';
+const { JsonSchema } = JsonFormsCore;
 
 export const budgetSchema: JsonSchema = {
   type: 'object',
@@ -75,12 +76,29 @@ export const budgetSchema: JsonSchema = {
     },
     expenses: {
       type: 'object',
-      patternProperties: {
-        '^.*$': {
+      properties: {
+        rent: {
           type: 'number',
-          minimum: 0
+          minimum: 0,
+          title: 'Rent (£)'
+        },
+        food: {
+          type: 'number', 
+          minimum: 0,
+          title: 'Food (£)'
+        },
+        transport: {
+          type: 'number',
+          minimum: 0,
+          title: 'Transport (£)'
+        },
+        utilities: {
+          type: 'number',
+          minimum: 0,
+          title: 'Utilities (£)'
         }
       },
+      required: ['rent', 'food', 'transport', 'utilities'],
       title: 'Monthly Expenses (£)'
     }
   },

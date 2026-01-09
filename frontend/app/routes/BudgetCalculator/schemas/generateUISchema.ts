@@ -1,4 +1,5 @@
-import { UISchemaElement } from '@jsonforms/core';
+import * as JsonFormsCore from '@jsonforms/core';
+const { UISchemaElement } = JsonFormsCore;
 
 export const generateUISchema = (): UISchemaElement => ({
   type: 'VerticalLayout',
@@ -70,7 +71,19 @@ export const generateUISchema = (): UISchemaElement => ({
       elements: [
         {
           type: 'Control',
-          scope: '#/properties/expenses'
+          scope: '#/properties/expenses/properties/rent'
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/expenses/properties/food'
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/expenses/properties/transport'
+        },
+        {
+          type: 'Control',
+          scope: '#/properties/expenses/properties/utilities'
         }
       ]
     }

@@ -1,8 +1,15 @@
 import { useHelloWorld } from "./hooks/useHelloWorld";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const { helloWorld, isLoading, isError } = useHelloWorld();
+  const navigate = useNavigate();
+  
+  const handleNavigation = () => {
+    console.log("Attempting to navigate to /budget-calculator");
+    navigate("/budget-calculator");
+  };
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -16,9 +23,12 @@ export default function Home() {
     <div>
       {helloWorld.Hello}
       <br />
-      <Link to="/budget-calculator">
-        <button>Go to Budget Calculator</button>
-      </Link>
+      <button 
+        onClick={handleNavigation}
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Go to Budget Calculator
+      </button>
     </div>
   );
 }
