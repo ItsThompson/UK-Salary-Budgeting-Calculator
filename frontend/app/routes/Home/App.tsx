@@ -1,4 +1,5 @@
 import { useHelloWorld } from "./hooks/useHelloWorld";
+import { Link } from "react-router";
 
 export default function Home() {
   const { helloWorld, isLoading, isError } = useHelloWorld();
@@ -11,5 +12,13 @@ export default function Home() {
   if (!helloWorld) {
     return <div>No data</div>;
   }
-  return <div>{helloWorld.Hello}</div>;
+  return (
+    <div>
+      {helloWorld.Hello}
+      <br />
+      <Link to="/budget-calculator">
+        <button>Go to Budget Calculator</button>
+      </Link>
+    </div>
+  );
 }
