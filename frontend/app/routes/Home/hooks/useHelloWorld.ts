@@ -1,10 +1,11 @@
 import useSWR from "swr";
-import type { HelloWorldResponse } from "./types";
 import { fetcher } from "~/common/utils/api/fetchers";
+import { getApiUrl } from "~/common/utils/env";
+import type { HelloWorldResponse } from "../types";
 
 export const useHelloWorld = () => {
   const { data, error, isLoading, mutate } = useSWR<HelloWorldResponse>(
-    `${import.meta.env.VITE_API_URL}/`,
+    `${getApiUrl()}/`,
     fetcher,
   );
 
