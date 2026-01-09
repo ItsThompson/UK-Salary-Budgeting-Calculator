@@ -59,21 +59,13 @@ export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
     onSubmit(data);
   };
 
-  const simpleSchema = {
-    type: "object",
-    properties: {
-      salary: {
-        type: "number",
-        title: "Annual Salary"
-      }
-    }
-  };
-
   if (!isClient || !JsonForms || !renderers || !renderers.schema) {
     return (
-      <div className="space-y-6">
-        <div className="bg-white p-6 rounded-lg border">
-          <p className="text-gray-900">Loading form...</p>
+      <div className="bg-gray-50 p-6 rounded-lg animate-pulse">
+        <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
+        <div className="space-y-3">
+          <div className="h-10 bg-gray-200 rounded"></div>
+          <div className="h-10 bg-gray-200 rounded"></div>
         </div>
       </div>
     );
@@ -81,10 +73,84 @@ export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg border" style={{ color: 'black' }}>
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900">Budget Details</h3>
         <style>{`
-          .vertical-layout input, .vertical-layout label, .vertical-layout select {
-            color: black !important;
+          .vertical-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
+          .vertical-layout-item label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+          }
+          .vertical-layout-item input,
+          .vertical-layout-item select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: #111827;
+            background-color: white;
+          }
+          .vertical-layout-item input:focus,
+          .vertical-layout-item select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+          }
+          .group-layout {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+          }
+          .group-layout-title,
+          .group-layout legend,
+          .group-layout > label,
+          fieldset > legend,
+          .group label:first-child {
+            font-weight: 600;
+            color: #1f2937 !important;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+          }
+          .array-layout label,
+          .array-layout span,
+          .array-layout td,
+          .array-layout th,
+          .array-table-layout,
+          .array-table-layout *,
+          .array-control-layout,
+          .array-control-layout *,
+          table label,
+          table span,
+          table td,
+          table th,
+          .control label,
+          .control span,
+          .validation {
+            color: #374151 !important;
+          }
+          .button-add,
+          .button-delete {
+            color: #374151 !important;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            background: white;
+            margin: 0.25rem;
+          }
+          .button-add:hover,
+          .button-delete:hover {
+            background: #f3f4f6;
           }
         `}</style>
         <JsonForms
@@ -100,7 +166,7 @@ export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
       <button 
         onClick={handleSubmit}
         disabled={isLoading}
-        className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+        className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {isLoading ? "Calculating..." : "Calculate Budget"}
       </button>
