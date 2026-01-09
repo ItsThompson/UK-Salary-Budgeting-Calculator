@@ -1,5 +1,5 @@
 export type HelloWorldResponse = {
-  Hello: string;
+  message: string;
 };
 
 export type BudgetRequest = {
