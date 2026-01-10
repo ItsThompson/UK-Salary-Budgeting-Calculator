@@ -1,7 +1,9 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import type { BudgetRequest } from "../types";
 
-const JsonFormsWrapper = lazy(() => import("./JsonFormsWrapper").then(m => ({ default: m.JsonFormsWrapper })));
+const JsonFormsWrapper = lazy(() =>
+  import("./JsonFormsWrapper").then((m) => ({ default: m.JsonFormsWrapper })),
+);
 
 interface BudgetFormProps {
   onSubmit: (data: BudgetRequest) => void;
@@ -27,22 +29,30 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
+export const BudgetForm = ({ onSubmit, isLoading }: BudgetFormProps) => {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [data, setData] = useState<BudgetRequest>({
-    salary: { annual_salary: 50000, employee_pension_percent: 5, employer_pension_percent: 3 },
+    salary: {
+      annual_salary: 50000,
+      employee_pension_percent: 5,
+      employer_pension_percent: 3,
+    },
     bonuses: { sign_on_bonus: 0, annual_bonus: 0 },
     stock_grants: { total_grant_value: 0, vesting_schedule: [100] },
     tax_settings: { national_insurance_category: "A" },
-    expenses: { rent: 1200, food: 400, transport: 200, utilities: 150 }
+    expenses: { rent: 1200, food: 400, transport: 200, utilities: 150 },
   });
 
   return (
     <div className="space-y-6">
       <div className="bg-gray-50 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4 text-gray-900">Budget Details</h3>
+        <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          Budget Details
+        </h3>
         <style>{formStyles}</style>
         {mounted ? (
           <Suspense fallback={<LoadingSkeleton />}>
@@ -52,8 +62,8 @@ export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
           <LoadingSkeleton />
         )}
       </div>
-      
-      <button 
+
+      <button
         onClick={() => onSubmit(data)}
         disabled={isLoading}
         className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -62,4 +72,4 @@ export function BudgetForm({ onSubmit, isLoading }: BudgetFormProps) {
       </button>
     </div>
   );
-}
+};

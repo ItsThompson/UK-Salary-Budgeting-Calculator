@@ -9,7 +9,7 @@ interface Props {
   onChange: (data: BudgetRequest) => void;
 }
 
-export function JsonFormsWrapper({ data, onChange }: Props) {
+export const JsonFormsWrapper = ({ data, onChange }: Props) => {
   return (
     <JsonForms
       schema={budgetSchema}
@@ -20,4 +20,4 @@ export function JsonFormsWrapper({ data, onChange }: Props) {
       onChange={({ data: formData }) => onChange(formData as BudgetRequest)}
     />
   );
-}
+};
