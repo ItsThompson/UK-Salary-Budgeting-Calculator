@@ -1,5 +1,11 @@
 # UK Salary Budgeting Calculator
 
+<p>
+  <a href="https://0rwx.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://0rwx.com/static/AI-W-dark.svg"><img src="https://0rwx.com/static/AI-W-light.svg" alt="0rwx WRITE: AI has read-write permissions" width="64" height="64"></picture></a>
+  <br>
+  <sub><strong>0rwx WRITE</strong>: AI has read-write permissions</sub>
+</p>
+
 A comprehensive web application for calculating post-tax income from UK salary, bonuses, and stock grants, with integrated budget planning functionality. Originally built as a Python CLI tool, now evolved into a full-stack web application with React frontend and FastAPI backend.
 
 ## Project Overview
